@@ -55,5 +55,5 @@ def register_handlers_client(dp : Dispatcher):
     dp.register_message_handler(develop_command, commands=['Developers'])
     dp.register_message_handler(translate_from_ru_to_eng, commands=['translate_from_ru_to_eng'])
     dp.register_message_handler(translate_from_eng_to_ru, commands=['translate_from_eng_to_ru'])
-    dp.register_message_handler(how_it_works, commands=['QR_code'])
+    dp.register_message_handler(qr_code, commands=['QR_code'])
 
