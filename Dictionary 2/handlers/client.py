@@ -15,7 +15,10 @@ async def command_start(message : types.Message):
 
 #@dp.message_handler(commands=['How_it_works'])
 async def how_it_works(message : types.Message):
-        await bot.send_message(message.from_user.id, 'You can enter you a word or sentence and bot translate it')
+        await bot.send_message(message.from_user.id, 'Вводите команду /translate и после нее в строку пишите слово или предложение, которые хотите перевести'
+                                                     '\nВот списки словарей для перевода:'
+                                                     '\n/translate_from_ru_to_eng'
+                                                     '\n/translate_from_eng_to_ru')
         await message.delete()
 
 #@dp.message_handler(commands=['Developers'])
@@ -24,16 +27,33 @@ async def develop_command(message : types.Message):
         await message.delete()
 
 #@dp.message_handler(commands=['translate'])
-async def text_translate_new(user : types.Message):
-    translator = Translator(from_lang="en", to_lang="ru")
-    user.text = translator.translate(user.text)
-    message.answer(user.text)
-async def text_translate(message : types.Message):
-    await bot.send_message(message.from_user.id, 'Введите слово или предложение')
-    await message.delete()
+async def translate_from_eng_to_ru(message : types.Message):
+    if message.text == '/Translate':
+        await message.delete()
+    else:
+        translator = Translator(from_lang="en", to_lang="ru")
+        message.text = translator.translate(message.text)
+        await message.answer(message.text)
+
+#@dp.message_handler(commands=['translate'])
+async def translate_from_ru_to_eng(message : types.Message):
+    if message.text == '/Translate':
+        await message.delete()
+    else:
+        translator = Translator(from_lang="ru", to_lang="en")
+        message.text = translator.translate(message.text)
+        await message.answer(message.text)
+
+@dp.message_handler(commands=['Qr'])
+async def qr_code(messege: types.Message):
+    await bot.send_photo(messege.from_user.id, types.InputFile('/Users/rumit/Desktop/Dictionary/qr.jpeg'))
+
 
 def register_handlers_client(dp : Dispatcher):
     dp.register_message_handler(command_start, commands=['start', 'help'])
     dp.register_message_handler(how_it_works, commands=['How_it_works'])
     dp.register_message_handler(develop_command, commands=['Developers'])
-    dp.register_message_handler(text_translate, commands=['translate'])
+    dp.register_message_handler(translate_from_ru_to_eng, commands=['translate_from_ru_to_eng'])
+    dp.register_message_handler(translate_from_eng_to_ru, commands=['translate_from_eng_to_ru'])
+    dp.register_message_handler(how_it_works, commands=['QR_code'])
+
